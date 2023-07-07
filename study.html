@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Study Planner</title>
+  <style>
+ body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+ background-color:#00eaff;
+ color: black;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  
+  color: #000000;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-section {
+  background-color: #F8F8F8;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  margin-top: 0;
+  color: #00eaff;
+  text-align: center;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #13c5e1;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0fbddb;
+}
+
+#plan-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#plan-list li {
+  background-color: #FFFFFF;
+  border: 1px solid #0c5ce5;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.countdown {
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #00c6c9c8;
+}
+
+.completed {
+  background-color: #D1F2C9;
+}
+
+.complete-btn,
+.incomplete-btn,
+.delete-btn {
+  padding: 5px 10px;
+  margin-left: 10px;
+  background-color: #0fdfe6;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+}
+
+.complete-btn:hover,
+.incomplete-btn:hover,
+.delete-btn:hover {
+  background-color: #0fbddb;
+}
+
+.score-card {
+  background-color: #35a8de;
+  padding: 10px;
+  text-align: center;
+}
+
+.score-card h3 {
+  margin-top: 0;
+  color: #FFFFFF;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.score-card p {
+  margin: 0;
+  font-size: 18px;
+  color: #FFFFFF;
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Study Planner</h1>
+  </header>
+
+  <main>
+    <section id="create-plan">
+      <h2>Create a Study Plan</h2>
+      
+      <form id="study-plan-form">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" required>
+
+        <label for="hours">Study minutes:</label>
+        <input type="number" id="hours" required>
+
+        <label for="goal">Goal:</label>
+        <textarea id="goal" required></textarea>
+
+        <button type="submit">Create Plan</button>
+      </form>
+    </section>
+
+    <section id="current-plans">
+      <h2>Your Study Plans</h2>
+      <ul id="plan-list">
+        <!-- Dynamic list of study plans will be added here -->
+      </ul>
+    </section>
+  </main>
+
+  <div class="score-card">
+    <h3>Scorecard</h3>
+    <p id="score">0</p>
+  </div>
+
+  <script>
+    // Handle form submission
+document.getElementById('study-plan-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  // Get form values
+  var subject = document.getElementById('subject').value;
+  var hours = document.getElementById('hours').value;
+  var goal = document.getElementById('goal').value;
+
+  // Create new study plan element
+  var studyPlan = document.createElement('li');
+  studyPlan.innerHTML = '<strong>' + subject + '</strong><br>' + hours + 'minutes - ' + goal;
+
+  // Create countdown timer
+  var countdown = document.createElement('span');
+  countdown.className = 'countdown';
+  studyPlan.appendChild(countdown);
+  startCountdown(countdown, hours * 60); // Convert hours to minutes
+
+  // Create complete/incomplete buttons
+  var completeBtn = document.createElement('button');
+  completeBtn.innerHTML = 'Complete';
+  completeBtn.className = 'complete-btn';
+  studyPlan.appendChild(completeBtn);
+
+  var incompleteBtn = document.createElement('button');
+  incompleteBtn.innerHTML = 'Incomplete';
+  incompleteBtn.className = 'incomplete-btn';
+  studyPlan.appendChild(incompleteBtn);
+
+  // Create delete button
+  var deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = 'Delete';
+  deleteBtn.className = 'delete-btn';
+  studyPlan.appendChild(deleteBtn);
+
+  // Handle complete button click
+  completeBtn.addEventListener('click', function() {
+    studyPlan.classList.add('completed');
+    updateScore(10);
+  });
+
+  // Handle incomplete button click
+  incompleteBtn.addEventListener('click', function() {
+    studyPlan.classList.remove('completed');
+  });
+
+  // Handle delete button click
+  deleteBtn.addEventListener('click', function() {
+    studyPlan.remove();
+  });
+
+  // Add study plan to the list
+  document.getElementById('plan-list').appendChild(studyPlan);
+
+  // Clear form fields
+  document.getElementById('subject').value = '';
+  document.getElementById('hours').value = '';
+  document.getElementById('goal').value = '';
+});
+
+// Countdown timer function
+function startCountdown(element, duration) {
+  var timer = duration, minutes, seconds;
+  var intervalId = setInterval(function () {
+    minutes = Math.floor(timer / 60);
+    seconds = timer % 60;
+
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    element.textContent = minutes + ':' + seconds;
+
+    if (--timer < 0) {
+      clearInterval(intervalId);
+      element.textContent = 'Time up!';
+    }
+  }, 1000);
+}
+
+// Update score function
+function updateScore(points) {
+  var scoreElement = document.getElementById('score');
+  var score = parseInt(scoreElement.textContent) || 0;
+  score += points;
+  scoreElement.textContent = score;
+}
+  </script>
+</body>
+</html>

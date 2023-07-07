@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    .card {
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  background-color: #87d1c1;
+  font-family: Arial, sans-serif;
+}
+.card:hover{
+    background-color: #55e647 ;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info {
+  margin-bottom: 20px;
+}
+
+.contact {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #2f10de;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+.btn:active {
+  background-color: #3e8e41;
+}
+
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>Tushar Gatthewar</h1>
+      <p>Assignment Writer</p>
+    </div>
+    <div class="content">
+      <div class="info">
+        <p><span class="label">Phone:</span>7776041772</p>
+        <p><span class="label">Specialization:</span>Computer Science and Engineering</p>
+        <p><span class="label">Prices:</span> RS.150 per Assignment</p>
+      </div>
+      <div class="contact">
+        <button class="btn" onclick="call()">Call</button>
+        <button class="btn" onclick="email()">Email</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function call() {
+    // Implement call functionality herefunction call() {
+  // Replace the following line with the code to initiate a phone call
+  window.location.href = "tel:7776041772";
+  
+  console.log("Calling Tushar Gatthewar");
+}
+
+
+  // Replace the following line with the code to open the default email client
+ 
+
+
+  
+  
+  function email() {
+    // Implement email functionality here
+    window.location.href = "mailto:tushargatthewar73@gmail.com";
+    console.log("Emailing Tushar Gatthewar");
+  }
+  </script>
+</body>
+</html>
